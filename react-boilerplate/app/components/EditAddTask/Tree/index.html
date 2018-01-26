@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tree</title>
+    <style>
+      #root {
+        margin: 25px auto;
+        width: 300px;
+        height: 300px;
+        border: 1px solid black;
+        padding: 5px;
+        overflow-y: scroll;
+      }
+      .tree-element {
+        margin: 5px;
+      }
+      .element-title {
+        margin: 0 40px 0 0;
+        display: inline;
+      }
+      .child-container {
+        margin-left: 10px;
+      }
+      .category-wrapper {
+        border: 1px solid black;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .hide {
+        display: none;
+      }
+      .input {
+        margin: 25px auto;
+      }
+    </style>
+    <script>
+
+      function hide(element) {
+        let parent = element.parentNode.parentNode.parentNode;
+        let children = [];
+
+        for (let i = 0; i < parent.childNodes.length; i++) {
+          if (parent.childNodes[i].className === "child-container" ||
+              parent.childNodes[i].className === "child-container hide") {
+            let findElem = parent.childNodes[i];
+            children.push(findElem);
+          }
+        }
+
+        children.forEach((item) => {
+          item.classList.toggle('hide');
+        })
+      }
+
+      function add(){
+        let root = document.getElementById('root');
+
+
+
+        let folder = document.createElement('div');
+        folder.className = "tree-element";
+        folder.innerHTML = `
+          <div class="category-wrapper">
+            <div>
+              <button onclick="hide(this)">Hide</button>
+              <p class='element-title'>Category name</p>
+            </div>
+            <button onclick="addChild(this)">Add</button>
+          </div>
+        `;
+
+        root.appendChild(folder);
+      }
+
+      function addChild(elem){
+
+        let parent = elem.parentNode.parentNode;
+        let child = document.createElement('div');
+        child.className = 'child-container';
+
+        child.innerHTML = `
+          <div class="category-wrapper">
+            <div>
+              <button onclick="hide(this)">Hide</button>
+              <p class='element-title'>Category name</p>
+            </div>
+            <button onclick="addChild(this)">Add</button>
+          </div>
+        `;
+
+        parent.appendChild(child);
+
+      }
+
+
+    </script>
+</head>
+<body>
+
+  <div style="margin: 0 auto; width: 230px;">
+    <input id="title"/>
+    <button onclick="add(this)" class="root-button">Add</button>
+  </div>
+
+  <div id="root">
+
+  </div>
+
+</body>
+</html>
